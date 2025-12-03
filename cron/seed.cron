@@ -1,0 +1,2 @@
+# run decrypt_seed.py every 5 minutes and append logs to /cron/cron.log
+*/5 * * * * root python3 /app/decrypt_seed.py >> /cron/cron.log 2>&1
