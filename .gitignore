@@ -3,3 +3,6 @@ student_private.pem
 data/seed.txt 
 __pycache__/ 
 tests/__pycache__/ 
+student_private.pem
+data/
+encrypted_seed.txt
