@@ -1,0 +1,32 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .             # build from current directory (uses Dockerfile)
+      dockerfile: Dockerfile # optional if named Dockerfile
+    container_name: pki-2fa
+    # Map host port 8080 -> container port 5000
+    # If your container runs the Flask server on 5000 (as in app.py), use "8080:5000".
+    # If your entrypoint runs on 8080, change to "8080:8080".
+    ports:
+      - "8080:5000"
+
+    # Named volumes (persist data between container restarts)
+    volumes:
+      - seed-data:/app/data            # persistent storage for seed
+      - cron-output:/cron              # persistent cron output
+      # Bind mount local key files for dev only (DO NOT commit private keys to repo)
+      - ./student_private.pem:/app/student_private.pem:ro
+      - ./student_public.pem:/app/student_public.pem:ro
+      - ./instructor_public.pem:/app/instructor_public.pem:ro
+
+    environment:
+      - TZ=UTC
+
+    restart: unless-stopped
+
+volumes:
+  seed-data:
+  cron-output:
